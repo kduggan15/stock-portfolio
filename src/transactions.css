@@ -1,3 +1,9 @@
+.transacitonList .header h1 {
+  padding: 10px;
+  font-size: 32px;
+
+}
+
 .transacitonList .header input {
   padding: 10px;
   font-size: 16px;
@@ -25,7 +31,7 @@
 .transacitonList .transList {
   list-style: none;
   padding-left: 0;
-  width: 330px;
+  width: 440px;
 }
 .transacitonList .transList li {
   color: #333;

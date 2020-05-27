@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Transactions from './transactions';
+import Portfolio from './portfolio';
 import './index.css';
 
 ReactDOM.render(
-  <Transactions/>,
+  <Portfolio/>,
   document.getElementById('root')
 );

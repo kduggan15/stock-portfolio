@@ -1,15 +1,16 @@
 import React, {Component} from "react";
 import Transaction from "./transaction"
-import "./transactions.css"
+import "./portfolio.css"
 
 var API_TOKEN = "pk_af0e2d7491e54b8d942ba946002b1588"
 var xhr;
 
-class Transactions extends Component{
+class Portfolio extends Component{
 
   constructor(props){
     super(props);
     this.state={
+      page:"transactions",
       transactions:[],
       cash: 5000
     }
@@ -76,24 +77,27 @@ class Transactions extends Component{
   }
 
   render(){
-    return(
-      <div className="transacitonList">
-        <div className="header">
-          <h1>Cash - ${this.state.cash}</h1>
-          <form onSubmit={this.addTransaction}>
-            <input ref={(a)=>this._inputTicker=a}
-                  placeholder="Ticker">
-            </input>
-            <input ref={(a)=>this._inputAmount=a}
-                  placeholder="Amount">
-            </input>
-            <button type="submit">Buy</button>
-          </form>
-          <Transaction entries={this.state.transactions}/>
+    if(this.state.page === "transactions"){
+      return(
+        <div className="transacitonList">
+          <div className="header">
+            <h1>Cash - ${this.state.cash}</h1>
+            <form onSubmit={this.addTransaction}>
+              <input ref={(a)=>this._inputTicker=a}
+                    placeholder="Ticker">
+              </input>
+              <input ref={(a)=>this._inputAmount=a}
+                    placeholder="Amount">
+              </input>
+              <button type="submit">Buy</button>
+            </form>
+            <Transaction entries={this.state.transactions}/>
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
+
   }
 }
 
-export default Transactions;
+export default Portfolio;

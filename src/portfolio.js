@@ -14,13 +14,31 @@ class Portfolio extends Component{
       transactions:[],
       cash: 5000
     }
-    this.addTransaction = this.addTransaction.bind(this);
-    this.priceRequest = this.priceRequest.bind(this);
+    this.addTransaction  = this.addTransaction.bind(this);
+    this.priceRequest    = this.priceRequest.bind(this);
+    this.viewSummary   = this.viewSummary.bind(this);
+    this.viewTransaction = this.viewTransaction.bind(this);
+  }
+
+  viewSummary(){
+    this.setState((prevState)=>{
+      return {
+        page:"portfolio"
+      };
+    });
+  }
+
+  viewTransaction(){
+    this.setState((prevState)=>{
+      return {
+        page:"transactions"
+      };
+    });
   }
 
   priceRequest(){
     var amount = this._inputAmount.value;
-    var ticker = this._inputTicker.value;
+    //var ticker = this._inputTicker.value;
     var isWhole=true;
     var validTicker=true;
     var canBuy = true;
@@ -29,7 +47,6 @@ class Portfolio extends Component{
       alert('Amount must be a whole number!');
       isWhole=false
     }
-//lastSalePrice
     if (xhr.readyState === 4 && xhr.status === 200){
       //alert(xhr.responseText);
       var response = JSON.parse(xhr.responseText);
@@ -69,7 +86,7 @@ class Portfolio extends Component{
   addTransaction(e){
 
     xhr=new XMLHttpRequest();
-    xhr.open("GET","https://cloud.iexapis.com/stable/tops?token=pk_af0e2d7491e54b8d942ba946002b1588&symbols="+this._inputTicker.value,true)
+    xhr.open("GET","https://cloud.iexapis.com/stable/tops?token="+API_TOKEN+"&symbols="+this._inputTicker.value,true)
     xhr.send();
     xhr.addEventListener("readystatechange",this.priceRequest, false);
 
@@ -79,7 +96,13 @@ class Portfolio extends Component{
   render(){
     if(this.state.page === "transactions"){
       return(
-        <div className="transacitonList">
+        <div className="transacitonPage">
+
+          <form>
+            <button type="button" onClick={this.viewSummary}>Portfolio</button>
+            <button type="button" onClick={this.viewTransaction} disabled>Transactions</button>
+          </form>
+
           <div className="header">
             <h1>Cash - ${this.state.cash}</h1>
             <form onSubmit={this.addTransaction}>
@@ -96,7 +119,16 @@ class Portfolio extends Component{
         </div>
       );
     }
-
+    else if(this.state.page === "portfolio"){
+      return(
+        <div className = "summaryPage">
+          <form>
+            <button type="button" onClick={this.viewSummary} disabled>Portfolio</button>
+            <button type="button" onClick={this.viewTransaction} >Transactions</button>
+          </form>
+        </div>
+      );
+    }
   }
 }
 

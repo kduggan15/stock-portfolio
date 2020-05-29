@@ -10,20 +10,22 @@ class Portfolio extends Component{
   constructor(props){
     super(props);
     this.state={
-      page:"transactions",
-      transactions:[],
-      cash: 5000
+      page         : "transactions",
+      transactions : [],
+      cash         : 5000,
+      assets       : 0,
+      stocks       : {}// {ticker:quantity}
     }
     this.addTransaction  = this.addTransaction.bind(this);
     this.priceRequest    = this.priceRequest.bind(this);
-    this.viewSummary   = this.viewSummary.bind(this);
+    this.viewSummary     = this.viewSummary.bind(this);
     this.viewTransaction = this.viewTransaction.bind(this);
   }
 
   viewSummary(){
     this.setState((prevState)=>{
       return {
-        page:"portfolio"
+        page:"summary"
       };
     });
   }

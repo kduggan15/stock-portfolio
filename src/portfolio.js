@@ -121,13 +121,21 @@ class Portfolio extends Component{
         </div>
       );
     }
-    else if(this.state.page === "portfolio"){
+    else if(this.state.page === "summary"){
       return(
         <div className = "summaryPage">
           <form>
             <button type="button" onClick={this.viewSummary} disabled>Portfolio</button>
             <button type="button" onClick={this.viewTransaction} >Transactions</button>
           </form>
+
+          <div className="header">
+            <h1>Account Summary</h1>
+            <h2>Cash: ${this.state.cash}</h2>
+            <h2>Assets: ${this.state.assets}</h2>
+            <h2>Cash: ${this.state.cash + this.state.assets}</h2>
+            <h1>All assets:</h1>
+          </div>
         </div>
       );
     }

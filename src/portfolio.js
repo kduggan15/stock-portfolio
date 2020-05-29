@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import Transaction from "./transaction"
+import Stocks from "./stocks"
 import "./portfolio.css"
 
 var API_TOKEN = "pk_af0e2d7491e54b8d942ba946002b1588"
@@ -14,15 +15,65 @@ class Portfolio extends Component{
       transactions : [],
       cash         : 5000,
       assets       : 0,
-      stocks       : {}// {ticker:quantity}
+      stocks       : {},// {ticker:quantity}
+      prices       : {},// {ticker:price}
+      stocksEntries: []
     }
     this.addTransaction  = this.addTransaction.bind(this);
     this.priceRequest    = this.priceRequest.bind(this);
     this.viewSummary     = this.viewSummary.bind(this);
     this.viewTransaction = this.viewTransaction.bind(this);
+    this.updatePrice    = this.updatePrice.bind(this);
+    this.updateStocks    = this.updateStocks.bind(this);
+  }
+
+  updatePrice(){
+    //[{symbol:ticker,lastSalePrice:$$$},{symbol:ticker,lastSalePrice:$$$}]
+    if (xhr.readyState === 4 && xhr.status === 200){
+      var response = JSON.parse(xhr.responseText);
+      var newPrices={}
+
+      for(var i in response){
+        newPrices[response[i].symbol] = response[i].lastSalePrice
+      }
+      this.setState((prevState)=>{
+        return({
+          prices:newPrices
+        });
+      });
+    }
+    this.updateStocks()
+  }
+
+  updateStocks(){
+    var tickers = Object.keys(this.state.stocks);
+    var entries = tickers.map(key=>{
+      return {
+        'ticker': key,
+        'price' : this.state.prices[key],
+        'quantity':this.state.stocks[key],
+        'key': Date.now()+this.state.prices[key]
+      }
+    });
+    this.setState((prevState)=>{
+      return({
+        stocksEntries:entries
+      });
+    });
   }
 
   viewSummary(){
+    var tickers="";
+    for(var key in this.state.stocks){
+      tickers+=key+",";
+    }
+
+    xhr=new XMLHttpRequest();
+    xhr.open("GET","https://cloud.iexapis.com/stable/tops?token="+API_TOKEN+"&symbols="+tickers,true)
+    xhr.send();
+    xhr.addEventListener("readystatechange",this.updatePrice, false);
+
+    //This might need to be moved
     this.setState((prevState)=>{
       return {
         page:"summary"
@@ -67,16 +118,24 @@ class Portfolio extends Component{
       if(validTicker && isWhole && canBuy){
         alert('Purchase succesful!');
         var newTrans={
-          ticker: this._inputTicker.value,
+          ticker: response[0].symbol,
           amount: this._inputAmount.value,
           price: aPrice,
           key: Date.now()
         }
 
         this.setState((prevState)=>{
+          var newStocks=prevState.stocks;
+          if(newStocks.hasOwnProperty(newTrans.ticker)){
+            newStocks[newTrans.ticker] = parseInt(newStocks[newTrans.ticker])+ parseInt(newTrans.amount);
+          }
+          else{
+            newStocks[newTrans.ticker]=newTrans.amount;
+          }
           return {
             transactions: prevState.transactions.concat(newTrans),
-            cash:(prevState.cash-cost).toFixed(2)
+            cash:(prevState.cash-cost).toFixed(2),
+            stocks:newStocks
           };
         });
       }
@@ -98,7 +157,7 @@ class Portfolio extends Component{
   render(){
     if(this.state.page === "transactions"){
       return(
-        <div className="transacitonPage">
+        <div className="transactionPage">
 
           <form>
             <button type="button" onClick={this.viewSummary}>Portfolio</button>
@@ -135,6 +194,7 @@ class Portfolio extends Component{
             <h2>Assets: ${this.state.assets}</h2>
             <h2>Cash: ${this.state.cash + this.state.assets}</h2>
             <h1>All assets:</h1>
+            <Stocks entries={this.state.stocksEntries}/>
           </div>
         </div>
       );

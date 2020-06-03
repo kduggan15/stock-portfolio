@@ -23,7 +23,7 @@ class Portfolio extends Component{
     this.priceRequest    = this.priceRequest.bind(this);
     this.viewSummary     = this.viewSummary.bind(this);
     this.viewTransaction = this.viewTransaction.bind(this);
-    this.updatePrice    = this.updatePrice.bind(this);
+    this.updatePrice     = this.updatePrice.bind(this);
     this.updateStocks    = this.updateStocks.bind(this);
   }
 

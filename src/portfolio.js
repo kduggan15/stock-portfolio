@@ -47,7 +47,9 @@ class Portfolio extends Component{
 
   updateStocks(){
     var tickers = Object.keys(this.state.stocks);
+    var assets = 0;
     var entries = tickers.map(key=>{
+      assets+=this.state.prices[key]*this.state.stocks[key];
       return {
         'ticker': key,
         'price' : this.state.prices[key],
@@ -57,6 +59,7 @@ class Portfolio extends Component{
     });
     this.setState((prevState)=>{
       return({
+        assets:assets,
         stocksEntries:entries
       });
     });
@@ -192,7 +195,7 @@ class Portfolio extends Component{
             <h1>Account Summary</h1>
             <h2>Cash: ${this.state.cash}</h2>
             <h2>Assets: ${this.state.assets}</h2>
-            <h2>Cash: ${this.state.cash + this.state.assets}</h2>
+            <h2>Account Total: ${Number(this.state.cash) + Number(this.state.assets)}</h2>
             <h1>All assets:</h1>
             <Stocks entries={this.state.stocksEntries}/>
           </div>

@@ -185,7 +185,7 @@ class Portfolio extends Component{
     }
     else if(this.state.page === "summary"){
       return(
-        <div className = "summaryPage">
+        <div className="summaryPage">
           <form>
             <button type="button" onClick={this.viewSummary} disabled>Portfolio</button>
             <button type="button" onClick={this.viewTransaction} >Transactions</button>

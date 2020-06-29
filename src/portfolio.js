@@ -130,7 +130,7 @@ class Portfolio extends Component{
         this.setState((prevState)=>{
           var newStocks=prevState.stocks;
           if(newStocks.hasOwnProperty(newTrans.ticker)){
-            newStocks[newTrans.ticker] = parseInt(newStocks[newTrans.ticker])+ parseInt(newTrans.amount);
+            newStocks[newTrans.ticker] = parseInt(newStocks[newTrans.ticker],10)+ parseInt(newTrans.amount,10);
           }
           else{
             newStocks[newTrans.ticker]=newTrans.amount;

@@ -17,7 +17,7 @@ class Transaction extends Component{
       <ul className="transList">
         {trans}
       </ul>
-    )
+    );
   }
 }
 

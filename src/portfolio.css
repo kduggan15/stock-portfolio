@@ -1,17 +1,17 @@
-.transacitonList .header h1 {
+.transactionPage .header h1 {
   padding: 10px;
   font-size: 32px;
 
 }
 
-.transacitonList .header input {
+.transactionPage .header input {
   padding: 10px;
   font-size: 16px;
   border: 2px solid #111;
   width: 165px;
 }
 
-.transacitonList .header button {
+.transactionPage .header button {
   padding: 10px;
   font-size: 16px;
   margin: 10px;
@@ -21,19 +21,19 @@
   border: 2px solid #111;
 }
 
-.transacitonList .header button:hover {
+.transactionPage .header button:hover {
   background-color: #003399;
   border: 2px solid #003399;
   border: 2px solid #111;
   cursor: pointer;
 }
 
-.transacitonList .transList {
+.transactionPage .transList {
   list-style: none;
   padding-left: 0;
   width: 440px;
 }
-.transacitonList .transList li {
+.transactionPage .transList li {
   color: #333;
   background-color: rgba(255,255,255,.5);
   padding: 15px;
